@@ -1,5 +1,13 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Configuração (monorepo)
+
+Na raiz do repositório, o guia completo está em [../README.md](../README.md). Aqui, em resumo:
+
+1. Copie [`.env.example`](./.env.example) para `.env.local`.
+2. `BACKEND_API_URL` deve apontar para a API Nest (padrão **http://localhost:3001/api**).
+3. O app de desenvolvimento usa a porta **3000** (`npm run dev`).
+
 ## Getting Started
 
 First, run the development server:

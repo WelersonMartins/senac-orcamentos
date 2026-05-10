@@ -10,9 +10,9 @@ O `@nestjs/cli` (e dependências como `@angular-devkit/core`) declara suporte ap
 
 1. Crie o banco e aplique o schema: [`../banco.sql`](../banco.sql).
 2. (Opcional) Dados de demonstração: a partir da raiz do repositório, `psql ... -f seed.sql` ([arquivo na raiz](../seed.sql)).
-3. Copie `.env.example` para `.env` e ajuste credenciais PostgreSQL e `JWT_SECRET`.
+3. Copie [`.env.example`](./.env.example) para `.env` e ajuste credenciais PostgreSQL e `JWT_SECRET` (no monorepo, `PORT` padrão é **3001** e `CORS_ORIGIN` aponta para o Next em **http://localhost:3000**).
 4. Na pasta `api`: `npm install` e `npm run start:dev`.
-5. Swagger UI: **http://localhost:3000/api/docs** (porta conforme `PORT` no `.env`).
+5. Swagger UI: **http://localhost:3001/api/docs** (porta conforme `PORT` no `.env`; padrão do exemplo: 3001).
 
 ### Login de demonstração (após `seed.sql`)
 

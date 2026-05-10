@@ -35,7 +35,7 @@ async function bootstrap() {
   const documentoOpenApi = SwaggerModule.createDocument(app, documentoSwagger);
   SwaggerModule.setup('api/docs', app, documentoOpenApi);
 
-  const porta = parseInt(process.env.PORT ?? '3000', 10);
+  const porta = parseInt(process.env.PORT ?? '3001', 10);
   await app.listen(porta);
 }
 
