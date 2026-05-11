@@ -1,10 +1,11 @@
 export type Produto = {
-	id: number;
-	nome: string;
-	descricao: string;
-	preco: number;
-	quantidade: number;
-	imagem: string;
-	createdAt: Date;
-	updatedAt: Date;
+	id?: number | undefined | null;
+	codigoSku?: string;
+	nome?: string;
+	descricao?: string;
+	precoUnitario?: number;
+	unidade?: string;
+	ativo?: boolean;
+	criadoEm?: Date;
+	atualizadoEm?: Date;
 };

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Nav from 'react-bootstrap/Nav'
@@ -24,19 +25,20 @@ export default function Navegacao() {
 
   return (
     <Navbar
-      bg="dark"
+      bg="primary"
       variant="dark"
-      className="flex-column align-items-stretch flex-shrink-0 p-3"
+      className="app-sidebar flex-column align-items-stretch flex-shrink-0 p-3"
       style={{ width: 280, height: '100vh' }}
     >
       <Navbar.Brand
         as={Link}
         href="/"
-        className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+        className="d-flex align-items-center gap-2 mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
       >
-        <span className="fs-4">SENAC ORÇAMENTOS</span>
+        <Image src="/logo.svg" alt="" width={36} height={36} />
+        <span className="fs-5 fw-semibold lh-sm">SENAC ORÇAMENTOS</span>
       </Navbar.Brand>
-      <hr className="border-secondary w-100 my-2" />
+      <hr className="border-light border-opacity-25 w-100 my-2" />
       <Nav variant="pills" className="flex-column mb-auto w-100">
         {LINKS.map(({ href, label }) => (
           <Nav.Link
@@ -44,7 +46,6 @@ export default function Navegacao() {
             as={Link}
             href={href}
             active={isNavActive(pathname, href)}
-            className="text-white"
           >
             {label}
           </Nav.Link>

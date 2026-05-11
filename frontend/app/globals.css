@@ -1,19 +1,30 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+/* Marca: azul primário, laranja secundário (substitui o tema default do Bootstrap) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f4f6fb;
+  --foreground: #0f172a;
+  --bs-primary: #1e40af;
+  --bs-primary-rgb: 30, 64, 175;
+  --bs-primary-text-emphasis: #172554;
+  --bs-primary-bg-subtle: #dbeafe;
+  --bs-primary-border-subtle: #93c5fd;
+  --bs-secondary: #ea580c;
+  --bs-secondary-rgb: 234, 88, 12;
+  --bs-secondary-text-emphasis: #9a3412;
+  --bs-secondary-bg-subtle: #ffedd5;
+  --bs-secondary-border-subtle: #fdba74;
+  --bs-link-color: #1d4ed8;
+  --bs-link-hover-color: #172554;
+  --bs-body-bg: #f4f6fb;
+  --bs-body-color: #0f172a;
+  --bs-border-color: #e2e8f0;
+  --bs-heading-color: #0f172a;
 }
 
 html {
   height: 100%;
+  color-scheme: light;
 }
 
 html,
@@ -28,7 +39,7 @@ body {
   flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,8 +55,39 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+/* Header: sombra e acento laranja */
+.app-header.navbar {
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+  border-bottom: 2px solid var(--bs-secondary);
+}
+
+/* Sidebar: links inativos legíveis; ativo em laranja */
+.app-sidebar .nav-pills .nav-link {
+  color: rgba(255, 255, 255, 0.88);
+  border-radius: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.app-sidebar .nav-pills .nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.app-sidebar .nav-pills .nav-link.active,
+.app-sidebar .nav-pills .show > .nav-link {
+  background-color: var(--bs-secondary);
+  color: #fff;
+}
+
+/* Fundo da página de login */
+.auth-shell {
+  min-height: 100vh;
+  background: linear-gradient(
+    145deg,
+    #1e3a8a 0%,
+    #1e40af 42%,
+    #2563eb 72%,
+    #ea580c 120%
+  );
+  background-attachment: fixed;
 }

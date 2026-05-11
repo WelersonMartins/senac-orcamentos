@@ -13,10 +13,12 @@ export default function SystemLayout({
       <div className="d-flex">
         <Navegacao />
         <main
-          className="flex-grow-1 p-4"
+          className="flex-grow-1 p-3 p-md-4 bg-body-secondary"
           style={{ overflowY: "auto", height: "100vh" }}
         >
-          {children}
+          <div className="rounded-4 bg-white shadow-sm p-3 p-md-4">
+            {children}
+          </div>
         </main>
       </div>
       <Footer />

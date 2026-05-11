@@ -11,7 +11,7 @@ export default function Login() {
   const [state, formAction] = useActionState(login, undefined)
 
   return (
-    <Card className="shadow">
+    <Card className="shadow border-0 rounded-4">
       <Card.Body className="p-4">
         <Card.Title as="h2" className="text-center mb-4">
           Login
