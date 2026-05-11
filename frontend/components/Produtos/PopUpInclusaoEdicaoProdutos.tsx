@@ -20,7 +20,6 @@ export default function PopUpInclusaoEdicaoProdutos({
   onSaveSuccess,
 }: Props) {
 
-  const [idProduto, setIdProduto] = useState<number | undefined | null>(codProduto);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [precoUnitario, setPrecoUnitario] = useState(0);
@@ -30,20 +29,26 @@ export default function PopUpInclusaoEdicaoProdutos({
 
   const handleSave = async () => {
     try {
-		const produto: Produto = {
-			id: idProduto,
+      if (codProduto) {
+        await updateProduto(codProduto, {
+			id: codProduto,
 			codigoSku,
 			nome,
 			descricao,
 			precoUnitario,
 			unidade,
 			ativo,
-		};
-      if (codProduto) {
-        await updateProduto(idProduto, produto);
+		});
         notify("Produto atualizado com sucesso.", "success");
       } else {
-        await createProduto(produto);
+        await createProduto({
+			codigoSku,
+			nome,
+			descricao,
+			precoUnitario,
+			unidade,
+			ativo,
+		});
         notify("Produto cadastrado com sucesso.", "success");
       }
       onSaveSuccess?.();

@@ -91,3 +91,33 @@ a {
   );
   background-attachment: fixed;
 }
+
+/* Tabelas de dados: cabeçalho azul (primário), acento laranja, corpo alinhado à marca */
+.app-data-table {
+  --bs-table-border-color: var(--bs-border-color);
+}
+
+.app-data-table thead th {
+  background-color: var(--bs-primary);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+  font-weight: 600;
+}
+
+.app-data-table thead {
+  border-bottom: 3px solid var(--bs-secondary);
+}
+
+.app-data-table tbody td {
+  background-color: transparent;
+}
+
+.app-data-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-accent-bg: var(--bs-primary-bg-subtle);
+  color: var(--bs-body-color);
+}
+
+.app-data-table.table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: var(--bs-secondary-bg-subtle);
+  color: var(--bs-body-color);
+}

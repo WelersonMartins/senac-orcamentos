@@ -105,8 +105,14 @@ export default function TabelaClientes() {
 
       {!loading && !loadError && (
         <div className="table-responsive">
-          <Table striped bordered hover responsive className="align-middle">
-            <thead className="table-dark">
+          <Table
+            striped
+            bordered
+            hover
+            responsive
+            className="align-middle app-data-table"
+          >
+            <thead>
               <tr>
                 <th>ID</th>
                 <th>Nome</th>

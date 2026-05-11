@@ -41,11 +41,26 @@ export default function TabelaProdutos() {
     setShowModalConfirmarExlusao(true);
   };
 
+  const handleIncluir = () => {
+    setCodProduto(null);
+    setShowModalInclusaoEdicao(true);
+  };
 
   return (
     <div className="table-responsive">
-      <Table striped bordered hover responsive className="align-middle">
-        <thead className="table-dark">
+      <div className="d-flex gap-2 mb-3 justify-content-end">
+        <Button variant="primary" size="sm" onClick={handleIncluir}>
+          Incluir novo Produtos
+        </Button>
+      </div>
+      <Table
+        striped
+        bordered
+        hover
+        responsive
+        className="align-middle app-data-table"
+      >
+        <thead>
           <tr>
             <th>ID</th>
             <th>Código SKU</th>
