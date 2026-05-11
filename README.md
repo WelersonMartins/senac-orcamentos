@@ -10,7 +10,8 @@ Monorepo com **API REST** (NestJS + TypeORM + PostgreSQL) e **interface web** (N
 |------------|------------|
 | **Node.js** | Na pasta `api`, o arquivo [`.nvmrc`](api/.nvmrc) indica **Node 22** (também suportados 18.19+ e 20.11+ conforme `api/package.json`). Recomenda-se [nvm](https://github.com/nvm-sh/nvm): `cd api && nvm install && nvm use`. |
 | **npm** | Versão **8+** (vem com Node recente). |
-| **PostgreSQL** | Servidor acessível por TCP; crie um banco vazio (ou use um só para este projeto). |
+| **PostgreSQL** | Servidor acessível por TCP; crie um banco vazio (ou use um só para este projeto). **Opcional** se você usar apenas o fluxo [Docker Compose](#docker-compose-postgresql--api). |
+| **Docker** | Opcional: [Docker Engine](https://docs.docker.com/engine/install/) + Compose V2 para subir banco + API (e, se quiser, frontend) via [`docker-compose.yml`](docker-compose.yml). |
 
 ## Estrutura do repositório
 
@@ -20,12 +21,63 @@ projeto-final/
 ├── frontend/         # App Next.js — porta padrão 3000
 ├── banco.sql         # DDL: tipos, tabelas e constraints (substitui “migração” inicial)
 ├── seed.sql          # Dados de demonstração (usuário demo, etc.)
+├── docker-compose.yml  # PostgreSQL + API (+ frontend opcional via profile)
 ├── api/.env.example
 ├── frontend/.env.example
 └── README.md
 ```
 
-Não há pastas de **migração TypeORM** (`MigrationInterface`). O schema esperado pela API é o definido em **`banco.sql`**. Com `TYPEORM_SYNC=false` (padrão no exemplo de ambiente), o TypeORM **não** cria tabelas automaticamente: é obrigatório aplicar o SQL antes de rodar a API.
+Não há pastas de **migração TypeORM** (`MigrationInterface`). O schema esperado pela API é o definido em **`banco.sql`**. Com `TYPEORM_SYNC=false` (padrão no exemplo de ambiente), o TypeORM **não** cria tabelas automaticamente: é obrigatório aplicar o SQL antes de rodar a API (exceto no fluxo Docker Compose abaixo, onde o init do PostgreSQL aplica `banco.sql` e `seed.sql` na primeira subida do volume).
+
+## Docker Compose (PostgreSQL + API)
+
+Uso didático: sobe **PostgreSQL** (dados persistidos em volume Docker nomeado `pgdata`, independente de Linux ou Windows) e a **API** em container, sem precisar instalar o servidor de banco na máquina.
+
+### Pré-requisitos
+
+- [Docker Engine](https://docs.docker.com/engine/install/) e Docker Compose V2 (`docker compose`).
+
+### Comandos (na raiz do repositório)
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+- **Padrão:** apenas `db` + `api`. O frontend **não** sobe no container (ideal para `npm run dev` no Next na IDE em **http://localhost:3000**).
+- **Incluir o Next em container:** `docker compose --profile frontend up -d` (rebuild se mudar código: `docker compose --profile frontend build frontend`).
+
+Na **primeira** criação do volume vazio, a imagem oficial do PostgreSQL executa automaticamente `banco.sql` e `seed.sql` montados em `/docker-entrypoint-initdb.d/`. Nos próximos `up`, os dados já existentes são reutilizados; alterações nesses arquivos **não** reaplicam sozinhas — use `docker compose down -v` para apagar o volume e rodar o init de novo (apaga todos os dados do banco no Docker).
+
+### Portas e conflitos
+
+| Serviço    | Host        | Observação |
+|------------|-------------|------------|
+| API        | **3001**    | Se algo já usar a 3001 na máquina, pare esse processo ou altere o mapeamento no `docker-compose.yml`. |
+| PostgreSQL | **5433** → 5432 no container | Evita conflito com um PostgreSQL local na porta 5432. Usuário `postgres`, senha `postgres`, banco `sistema_pequena_empresa`. |
+| Next (profile `frontend`) | **3000** | Só quando o profile estiver ativo. |
+
+### Variáveis de ambiente
+
+- **API no Compose:** definidas em [`docker-compose.yml`](docker-compose.yml) (`DATABASE_HOST=db`, `CORS_ORIGIN=http://localhost:3000`, `JWT_SECRET` fixo só para didática — não use em produção).
+- **Next na IDE (debug):** crie [`frontend/.env.local`](frontend/.env.example) com `BACKEND_API_URL=http://localhost:3001/api` (o servidor Next no host fala com a API exposta na máquina).
+- **Next no Docker (profile `frontend`):** o Compose define `BACKEND_API_URL=http://api:3001/api` (rede interna do Compose), porque as chamadas ao backend ocorrem **dentro** do container do Next.
+
+### URLs úteis
+
+- Swagger: **http://localhost:3001/api/docs**
+- Next (se subiu com profile): **http://localhost:3000**
+
+### Se a API falhar com `getaddrinfo EAI_AGAIN db`
+
+Isso costuma ser falha temporária de DNS na rede Docker (às vezes com imagens **Alpine** no Node). O `docker-compose.yml` usa rede **`internal`** explícita, a API reinicia com `restart: unless-stopped` e o TypeORM passa a ter mais tentativas de conexão; a imagem da API usa **Debian slim** (`bookworm-slim`) para melhor compatibilidade com o resolvedor do Docker. Reconstrua e suba de novo: `docker compose build api && docker compose up -d`.
+
+### Login de demonstração (após init automático ou `seed.sql`)
+
+| Campo  | Valor |
+|--------|--------|
+| E-mail | `demo@sistema.local` |
+| Senha  | `senha123` |
 
 ## 1. Banco de dados
 

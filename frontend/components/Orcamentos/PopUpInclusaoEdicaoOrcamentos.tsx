@@ -19,7 +19,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
 
 const SITUACOES: SituacaoOrcamento[] = [
-  'rascunho',
+  'pendente',
   'enviado',
   'aprovado',
   'rejeitado',
@@ -76,7 +76,7 @@ export default function PopUpInclusaoEdicaoOrcamentos({
   const [produtos, setProdutos] = useState<Produto[]>([])
 
   const [clienteId, setClienteId] = useState(0)
-  const [situacao, setSituacao] = useState<SituacaoOrcamento>('rascunho')
+  const [situacao, setSituacao] = useState<SituacaoOrcamento>('pendente')
   const [valorDesconto, setValorDesconto] = useState(0)
   const [validoAte, setValidoAte] = useState('')
   const [observacoes, setObservacoes] = useState('')
@@ -142,7 +142,7 @@ export default function PopUpInclusaoEdicaoOrcamentos({
         })
     } else {
       setClienteId(0)
-      setSituacao('rascunho')
+      setSituacao('pendente')
       setValorDesconto(0)
       setValidoAte('')
       setObservacoes('')

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 import { ClientesModule } from './clientes/clientes.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { Cliente } from './entidades/cliente.entidade';
 import { ItemOrcamento } from './entidades/item-orcamento.entidade';
 import { Orcamento } from './entidades/orcamento.entidade';
@@ -28,6 +29,14 @@ import { UsuariosModule } from './usuarios/usuarios.module';
         entities: [Usuario, Cliente, Produto, Orcamento, ItemOrcamento],
         synchronize: config.get<string>('TYPEORM_SYNC', 'false') === 'true',
         logging: config.get<string>('TYPEORM_LOGGING', 'false') === 'true',
+        retryAttempts: parseInt(
+          config.get<string>('DATABASE_RETRY_ATTEMPTS', '20'),
+          10,
+        ),
+        retryDelay: parseInt(
+          config.get<string>('DATABASE_RETRY_DELAY_MS', '3000'),
+          10,
+        ),
       }),
     }),
     AutenticacaoModule,
@@ -35,6 +44,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
     ClientesModule,
     ProdutosModule,
     OrcamentosModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}

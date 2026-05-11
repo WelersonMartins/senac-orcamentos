@@ -3,10 +3,8 @@
 import { getClientes, excluirCliente } from "@/app/(system)/clientes/actions";
 import { Cliente as ClienteType } from "@/types/clientes";
 import { PopUpInclusaoEdicao } from "@/components/Clientes";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import { Table, Button } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import Table from "react-bootstrap/Table";
 import { useCallback, useEffect, useState } from "react";
 import { ConfirmDialog } from "@/components/CofirmDialog";
 import { notify } from "@/components/Notify";
@@ -36,32 +34,29 @@ export default function TabelaClientes() {
 
   const handleShowModalConfirmarExlusao = useCallback(
     (id: number | undefined) => {
-      if (id === undefined || id === null) return
-      setIdClienteExclusao(id)
-      setShowModalConfirmarExlusao(true)
+      if (id === undefined || id === null) return;
+      setIdClienteExclusao(id);
+      setShowModalConfirmarExlusao(true);
     },
     [],
-  )
-
-  const handleConfirmarExclusao = useCallback(
-    async () => {
-      if (!idClienteExclusao) {
-        return;
-      }
-      try {
-        await excluirCliente(idClienteExclusao);
-        notify("Cliente excluído com sucesso.", "success");
-        void loadClientes();
-        setShowModalConfirmarExlusao(false);
-        setIdClienteExclusao(undefined);
-      } catch (e) {
-        const msg =
-          e instanceof Error ? e.message : "Não foi possível excluir o cliente.";
-        notify(msg, "danger");
-      }
-    },
-    [loadClientes, idClienteExclusao],
   );
+
+  const handleConfirmarExclusao = useCallback(async () => {
+    if (!idClienteExclusao) {
+      return;
+    }
+    try {
+      await excluirCliente(idClienteExclusao);
+      notify("Cliente excluído com sucesso.", "success");
+      void loadClientes();
+      setShowModalConfirmarExlusao(false);
+      setIdClienteExclusao(undefined);
+    } catch (e) {
+      const msg =
+        e instanceof Error ? e.message : "Não foi possível excluir o cliente.";
+      notify(msg, "danger");
+    }
+  }, [loadClientes, idClienteExclusao]);
 
   useEffect(() => {
     void loadClientes();
@@ -87,8 +82,7 @@ export default function TabelaClientes() {
   };
 
   return (
-    <Container className="mt-4">
-      <h3 className="mb-3">Clientes</h3>
+    <div className="table-responsive">
       <div className="d-flex gap-2 mb-3 justify-content-end">
         <Button variant="primary" size="sm" onClick={handleIncluir}>
           Incluir novo Cliente
@@ -104,51 +98,53 @@ export default function TabelaClientes() {
       {!loading && loadError && <p className="text-danger">{loadError}</p>}
 
       {!loading && !loadError && (
-        <div className="table-responsive">
-          <Table
-            striped
-            bordered
-            hover
-            responsive
-            className="align-middle app-data-table"
-          >
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Documento</th>
-                <th>Telefone</th>
-                <th>Observações</th>
-                <th>Ações</th>
+        <Table
+          striped
+          bordered
+          hover
+          responsive
+          className="align-middle app-data-table"
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Documento</th>
+              <th>Telefone</th>
+              <th>Observações</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {clientes.map((item) => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.nome}</td>
+                <td>{item.email}</td>
+                <td>{item.documento}</td>
+                <td>{item.telefone}</td>
+                <td>{item.observacoes}</td>
+                <td className="d-flex gap-2">
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => handleEditar(item.id)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleShowModalConfirmarExlusao(item.id)}
+                  >
+                    Excluir
+                  </Button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {clientes.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.nome}</td>
-                  <td>{item.email}</td>
-                  <td>{item.documento}</td>
-                  <td>{item.telefone}</td>
-                  <td>{item.observacoes}</td>
-                  <td className="d-flex gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => handleEditar(item.id)}
-                    >
-                      Editar
-                    </Button>
-                    <Button variant="danger" size="sm" onClick={() => handleShowModalConfirmarExlusao(item.id)}>
-                      Excluir
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+            ))}
+          </tbody>
+        </Table>
       )}
 
       <PopUpInclusaoEdicao
@@ -163,10 +159,10 @@ export default function TabelaClientes() {
         mensagem="Tem certeza que deseja excluir o cliente?"
         aoConfirmar={handleConfirmarExclusao}
         onHide={() => {
-          setShowModalConfirmarExlusao(false)
-          setIdClienteExclusao(undefined)
+          setShowModalConfirmarExlusao(false);
+          setIdClienteExclusao(undefined);
         }}
       />
-    </Container>
+    </div>
   );
 }

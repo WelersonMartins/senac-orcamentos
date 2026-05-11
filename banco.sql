@@ -13,7 +13,7 @@ DROP TYPE IF EXISTS tipo_perfil_usuario CASCADE;
 -- 3) Tipos enumerados (domínio)
 -- -----------------------------------------------------------------------------
 CREATE TYPE tipo_situacao_orcamento AS ENUM (
-  'rascunho',
+  'pendente',
   'enviado',
   'aprovado',
   'rejeitado',
@@ -107,7 +107,7 @@ CREATE TABLE orcamentos (
   id serial PRIMARY KEY,
   cliente_id integer NOT NULL REFERENCES clientes (id) ON DELETE RESTRICT,
   usuario_autor_id integer NOT NULL REFERENCES usuarios (id) ON DELETE RESTRICT,
-  situacao tipo_situacao_orcamento NOT NULL DEFAULT 'rascunho',
+  situacao tipo_situacao_orcamento NOT NULL DEFAULT 'pendente',
   subtotal numeric(14, 2) NOT NULL DEFAULT 0,
   valor_desconto numeric(14, 2) NOT NULL DEFAULT 0,
   total numeric(14, 2) NOT NULL DEFAULT 0,

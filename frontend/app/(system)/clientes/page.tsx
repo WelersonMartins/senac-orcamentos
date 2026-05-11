@@ -1,5 +1,10 @@
-import { TabelaClientes } from '@/components/Clientes'
+import { TabelaClientes } from "@/components/Clientes";
 
 export default function ClientesPage() {
-  return <TabelaClientes />
+  return (
+    <div>
+      <h1>Clientes</h1>
+      <TabelaClientes />
+    </div>
+  );
 }

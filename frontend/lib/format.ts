@@ -18,10 +18,7 @@ export function formatarData(val: string | Date | undefined): string {
 }
 
 /** Texto truncado para tabelas; vazio vira em dash. */
-export function truncarObs(
-  texto: string | null | undefined,
-  max = 48,
-): string {
+export function truncarObs( texto: string | null | undefined,  max = 48,): string {
   if (!texto) return '—'
   if (texto.length <= max) return texto
   return `${texto.slice(0, max)}…`

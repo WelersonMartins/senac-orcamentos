@@ -29,6 +29,7 @@ html {
 
 html,
 body {
+  height: 100%;
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -55,10 +56,58 @@ a {
   text-decoration: none;
 }
 
+/* Layout do sistema: header/footer/sidebar ficam visíveis; só o main rola */
+.app-system-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-system-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.app-system-main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  background-color: var(--bs-body-bg);
+  padding: 1rem;
+}
+
+.app-system-content {
+  min-height: 100%;
+  border-radius: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0.125rem 0.75rem rgba(15, 23, 42, 0.08);
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .app-system-main {
+    padding: 1.5rem;
+  }
+
+  .app-system-content {
+    padding: 1.5rem;
+  }
+}
+
 /* Header: sombra e acento laranja */
 .app-header.navbar {
   box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
   border-bottom: 2px solid var(--bs-secondary);
+}
+
+.app-sidebar.navbar {
+  width: 320px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Sidebar: links inativos legíveis; ativo em laranja */

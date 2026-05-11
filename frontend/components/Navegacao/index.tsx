@@ -3,14 +3,18 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { logout } from '@/app/(auth)/logout/actions'
+import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
 const LINKS = [
+  { href: '/dashboard', label: 'Dashboard' },
   { href: '/produtos', label: 'Produtos' },
   { href: '/clientes', label: 'Clientes' },
   { href: '/orcamentos', label: 'Orçamentos' },
   { href: '/usuario', label: 'Meu Perfil' },
+  
 ] as const
 
 function isNavActive(pathname: string, href: string) {
@@ -28,7 +32,6 @@ export default function Navegacao() {
       bg="primary"
       variant="dark"
       className="app-sidebar flex-column align-items-stretch flex-shrink-0 p-3"
-      style={{ width: 280, height: '100vh' }}
     >
       <Navbar.Brand
         as={Link}
@@ -51,6 +54,11 @@ export default function Navegacao() {
           </Nav.Link>
         ))}
       </Nav>
+      <form action={logout} className="mt-auto w-100">
+        <Button type="submit" variant="secondary" className="w-100">
+          Sair
+        </Button>
+      </form>
     </Navbar>
   )
 }

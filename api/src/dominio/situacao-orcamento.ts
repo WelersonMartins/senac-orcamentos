@@ -1,5 +1,5 @@
 export enum SituacaoOrcamento {
-  rascunho = 'rascunho',
+  pendente = 'pendente',
   enviado = 'enviado',
   aprovado = 'aprovado',
   rejeitado = 'rejeitado',

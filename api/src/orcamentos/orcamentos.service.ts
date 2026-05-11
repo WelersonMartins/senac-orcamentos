@@ -83,7 +83,7 @@ export class OrcamentosService {
       const orcamento = queryRunner.manager.create(Orcamento, {
         clienteId: dto.clienteId,
         usuarioAutorId: usuario.id,
-        situacao: dto.situacao ?? SituacaoOrcamento.rascunho,
+        situacao: dto.situacao ?? SituacaoOrcamento.pendente,
         subtotal: String(arredondar2(subtotal)),
         valorDesconto: String(valorDesconto),
         total: String(total),

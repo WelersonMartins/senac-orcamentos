@@ -8,20 +8,15 @@ export default function SystemLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="app-system-shell">
       <Header />
-      <div className="d-flex">
+      <div className="app-system-body">
         <Navegacao />
-        <main
-          className="flex-grow-1 p-3 p-md-4 bg-body-secondary"
-          style={{ overflowY: "auto", height: "100vh" }}
-        >
-          <div className="rounded-4 bg-white shadow-sm p-3 p-md-4">
-            {children}
-          </div>
+        <main className="app-system-main">
+          <div className="app-system-content">{children}</div>
         </main>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

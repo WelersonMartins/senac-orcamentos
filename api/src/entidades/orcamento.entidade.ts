@@ -36,7 +36,7 @@ export class Orcamento {
     type: 'enum',
     enum: SituacaoOrcamento,
     enumName: 'tipo_situacao_orcamento',
-    default: SituacaoOrcamento.rascunho,
+    default: SituacaoOrcamento.pendente,
   })
   situacao: SituacaoOrcamento;
 

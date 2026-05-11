@@ -1,6 +1,6 @@
 /** Alinhado ao enum `tipo_situacao_orcamento` / API Nest. */
 export type SituacaoOrcamento =
-  | 'rascunho'
+  | 'pendente'
   | 'enviado'
   | 'aprovado'
   | 'rejeitado'
