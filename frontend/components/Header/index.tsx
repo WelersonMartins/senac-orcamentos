@@ -21,7 +21,7 @@ export default function Header() {
             height={40}
             priority
           />
-          <span className="h4 mb-0 fw-semibold">Orçamentos</span>
+          <span className="h4 mb-0 fw-semibold">SENAC Orçamentos</span>
         </Navbar.Brand>
       </Container>
     </Navbar>
