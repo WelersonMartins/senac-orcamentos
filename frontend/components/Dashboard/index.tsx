@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Indicador from "./Indicador";
 import GraficoLinha from "./GraficoLinha";
 import GraficoPizza from "./GraficoPizza";
+import TabelaRanking from "./TabelaRanking";
 import { useState, useEffect } from "react";
 import {
   DashboardResumo,
@@ -31,11 +32,11 @@ export default function Dashboard() {
   const [dashboardOrcamentosPorMes, setDashboardOrcamentosPorMes] =
     useState<DashboardOrcamentosPorMes[]>([]);
   const [dashboardValorOrcadoPorMes, setDashboardValorOrcadoPorMes] =
-    useState<DashboardValorOrcadoPorMes | null>(null);
+    useState<DashboardValorOrcadoPorMes[]>([]);
   const [dashboardTopClientesOrcamentos, setDashboardTopClientesOrcamentos] =
-    useState<DashboardTopClientesOrcamentos | null>(null);
+    useState<DashboardTopClientesOrcamentos[]>([]);
   const [dashboardTopProdutosOrcados, setDashboardTopProdutosOrcados] =
-    useState<DashboardTopProdutosOrcados | null>(null);
+    useState<DashboardTopProdutosOrcados[]>([]);
 
   useEffect(() => {
     getDashboardResumo().then((data) => {
@@ -58,9 +59,9 @@ export default function Dashboard() {
 		}));
       setDashboardOrcamentosPorMes(data);
     });
-    getDashboardValorOrcadoPorMes(2026).then((data) => {
-      setDashboardValorOrcadoPorMes(data);
-    });
+    getDashboardValorOrcadoPorMes(2026).then(setDashboardValorOrcadoPorMes);
+    getDashboardTopClientesOrcamentos(10).then(setDashboardTopClientesOrcamentos);
+    getDashboardTopProdutosOrcados(10).then(setDashboardTopProdutosOrcados);
     setLoading(false);
   }, []);
   return (
@@ -104,8 +105,44 @@ export default function Dashboard() {
 				</Col>
 			  
 				<Col md={4}>
-					<h3>Orçamentos por Mês</h3>
+					<h4>Orçamentos por Mês</h4>
 					<GraficoLinha titulo="Orçamentos por Mês" dados={dashboardOrcamentosPorMes} />
+				</Col>
+
+				<Col md={4}>
+					<h4>Valor orçado por mês</h4>
+					<GraficoLinha
+						titulo="Valor orçado por mês (2026)"
+						dados={dashboardValorOrcadoPorMes}
+						tipoValor="moeda"
+					/>
+				</Col>
+			  </Row>
+
+			  <Row className="g-4 pt-4 mt-2">
+				<Col md={6}>
+					<h4>Top clientes por orçamentos</h4>
+					<TabelaRanking
+						colunaNome="Cliente"
+						colunaTotal="Orçamentos"
+						dados={dashboardTopClientesOrcamentos.map((c) => ({
+							id: c.clienteId,
+							nome: c.nome,
+							total: c.totalOrcamentos,
+						}))}
+					/>
+				</Col>
+				<Col md={6}>
+					<h4>Top produtos orçados</h4>
+					<TabelaRanking
+						colunaNome="Produto"
+						colunaTotal="Ocorrências"
+						dados={dashboardTopProdutosOrcados.map((p) => ({
+							id: p.produtoId,
+							nome: p.nome,
+							total: p.totalOcorrencias,
+						}))}
+					/>
 				</Col>
 			  </Row>
             </>

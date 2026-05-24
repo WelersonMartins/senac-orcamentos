@@ -28,17 +28,17 @@ export async function getDashboardOrcamentosPorMes(ano: number): Promise<Dashboa
 	return response.json();
 }
 
-export async function getDashboardValorOrcadoPorMes(ano: number): Promise<DashboardValorOrcadoPorMes> {
+export async function getDashboardValorOrcadoPorMes(ano: number): Promise<DashboardValorOrcadoPorMes[]> {
 	const response = await apiServerFetch(`/dashboard/valor-orcado-por-mes?ano=${ano}`);
 	return response.json();
 }
 
-export async function getDashboardTopClientesOrcamentos(limit: number): Promise<DashboardTopClientesOrcamentos> {
+export async function getDashboardTopClientesOrcamentos(limit: number): Promise<DashboardTopClientesOrcamentos[]> {
 	const response = await apiServerFetch(`/dashboard/top-clientes-orcamentos?limit=${limit}`);
 	return response.json();
 }
 
-export async function getDashboardTopProdutosOrcados(limit: number): Promise<DashboardTopProdutosOrcados> {
+export async function getDashboardTopProdutosOrcados(limit: number): Promise<DashboardTopProdutosOrcados[]> {
 	const response = await apiServerFetch(`/dashboard/top-produtos-orcados?limit=${limit}`);
 	return response.json();
 }

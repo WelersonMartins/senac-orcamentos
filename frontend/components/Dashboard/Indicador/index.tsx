@@ -13,7 +13,7 @@ export default function Indicador({ titulo, valor }: IndicadorProps) {
     <Card className="text-center shadow-sm">
       <Card.Body>
         <Card.Title className="text-muted">{titulo}</Card.Title>
-        <Card.Text className="h3">R$ {valor}</Card.Text>
+        <Card.Text className="h3">{valor}</Card.Text>
       </Card.Body>
     </Card>
   );

@@ -13,6 +13,7 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { formatarMoeda } from "@/lib/format";
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +35,7 @@ export type ItemGraficoLinha = {
 export interface GraficoLinhaProps {
   titulo?: string;
   dados: ItemGraficoLinha[];
+  tipoValor?: "numero" | "moeda";
 }
 
 enum Meses {
@@ -51,7 +53,14 @@ enum Meses {
   Dezembro = 12,
 }
 
-export default function GraficoLinha({ titulo,  dados, }: GraficoLinhaProps) {
+export default function GraficoLinha({
+  titulo,
+  dados,
+  tipoValor = "numero",
+}: GraficoLinhaProps) {
+  const formatar = (n: number) =>
+    tipoValor === "moeda" ? formatarMoeda(n) : String(n);
+
   const data = {
     labels: dados.map((item) => Meses[item.mes]),
     datasets: [
@@ -68,16 +77,25 @@ export default function GraficoLinha({ titulo,  dados, }: GraficoLinhaProps) {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: "top" as const,
       },
       title: {
         display: true,
         text: titulo,
       },
+      tooltip: {
+        callbacks: {
+          label: (ctx: { parsed: { y: number | null } }) =>
+            formatar(ctx.parsed.y ?? 0),
+        },
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          callback: (value: string | number) => formatar(Number(value)),
+        },
       },
     },
   };

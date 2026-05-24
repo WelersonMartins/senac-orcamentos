@@ -9,32 +9,24 @@ export interface DashboardOrcamentosPorStatus {
 	total: number;
 }
 
-export interface DashboardOrcamentosPorMes {
+export type SerieMensal = {
 	ano: number;
 	mes: number;
 	total: number;
-}
+};
 
-export interface DashboardValorOrcadoPorMes {
-	totalValorOrcado: number;
-	totalValorOrcadoPendentes: number;
-	totalValorOrcadoAprovados: number;
-	totalValorOrcadoReprovados: number;
-	totalValorOrcadoCancelados: number;
-}
+export type DashboardOrcamentosPorMes = SerieMensal;
+
+export type DashboardValorOrcadoPorMes = SerieMensal;
 
 export interface DashboardTopClientesOrcamentos {
-	totalClientes: number;
-	totalClientesPendentes: number;
-	totalClientesAprovados: number;
-	totalClientesReprovados: number;
-	totalClientesCancelados: number;
+	clienteId: number;
+	nome: string;
+	totalOrcamentos: number;
 }
 
 export interface DashboardTopProdutosOrcados {
-	totalProdutos: number;
-	totalProdutosPendentes: number;
-	totalProdutosAprovados: number;
-	totalProdutosReprovados: number;
-	totalProdutosCancelados: number;
+	produtoId: number;
+	nome: string;
+	totalOcorrencias: number;
 }
